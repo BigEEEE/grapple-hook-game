@@ -4,13 +4,18 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private LayerMask groundCheckMask;
-    private float grapplePower;
+    [SerializeField] private float jumpHeight;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float grappleMidAirWait;
+    [SerializeField] private float timer;
 
-    private bool jumpKeyWasPressed = false;
+    private float grapplePower;
     private float horizontalInput;
+    private bool canMoveMidair = true;
+    private bool jumpKeyWasPressed = false;
+    private bool grappleUsed = false;
+   
     
-    public float jumpHeight;
-    public float moveSpeed;
     private Rigidbody rb;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,11 +30,23 @@ public class PlayerController : MonoBehaviour
        
         if (Input.GetKeyDown(KeyCode.Space) && (Physics.OverlapSphere(groundCheckTransform.position, 0.5f, groundCheckMask).Length > 0))
         {
-            jumpKeyWasPressed=true;
+            jumpKeyWasPressed = true;
         }
 
         horizontalInput = Input.GetAxis("Horizontal") * moveSpeed;
-        
+
+
+        if (timer < grappleMidAirWait && canMoveMidair == false)
+        {
+            timer += Time.deltaTime;
+        }
+        else
+        {
+            canMoveMidair = true;
+            timer = 0;
+        }
+
+
 
 
     }
@@ -42,18 +59,32 @@ public class PlayerController : MonoBehaviour
             jumpKeyWasPressed = false;
         }
 
-        if (horizontalInput != 0)
+        if (horizontalInput != 0 && canMoveMidair == true)
         {
             rb.linearVelocity = new Vector3(horizontalInput, rb.linearVelocity.y, rb.linearVelocity.z);
         }
     }
     public void MoveTowardsTarget(Vector3 grappleImpactPosition)
     {
-       
+        canMoveMidair = false;
+        grappleUsed = true;
+
         Vector3 moveDirection = grappleImpactPosition - transform.position;
         grapplePower = Mathf.Clamp(2 * moveDirection.magnitude, 0, 15);
         Debug.Log(grapplePower);
         rb.linearVelocity = new Vector3(moveDirection.x, moveDirection.y, 0).normalized * grapplePower;
         Debug.Log(rb.linearVelocity);
+
+
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (grappleUsed)
+        {
+            rb.linearVelocity = Vector3.zero;
+            grappleUsed = false;
+            canMoveMidair = true;
+        }
     }
 }

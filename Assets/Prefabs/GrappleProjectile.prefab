@@ -97,7 +97,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2288857870427546968}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: acb1c4690edd6684da8c6ba44e08a77c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -123,6 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afcedaea782d0a6459a511f6ca5ca029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  c1: {r: 0.5377358, g: 0.2059094, b: 0, a: 1}
+  c2: {r: 1, g: 0, b: 0, a: 1}
   projectileSpeed: 15
   rayCastTargetPlane:
     serializedVersion: 2
@@ -259,5 +261,5 @@ LineRenderer:
     generateLightingData: 0
   m_MaskInteraction: 0
   m_UseWorldSpace: 1
-  m_Loop: 0
+  m_Loop: 1
   m_ApplyActiveColorSpace: 1

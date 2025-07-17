@@ -6,15 +6,21 @@ using UnityEngine.UIElements;
 
 public class GrappleShootScript : MonoBehaviour
 {
-    
+    private float timer;
+    private bool readyToDestroy = false;
+    private bool collisionHapppened = false;
     private Rigidbody rb;
     private Vector3 shootDirection;
+    private Vector3[] points = new Vector3[2];
     private Camera mainCamera;
     private GameObject player;
-
     private LineRenderer lineRenderer;
-    public Color c1 = Color.yellow;
-    public Color c2 = Color.red;
+
+    public Color c1 = new Color(130f, 50f,0f);
+    public Color c2 = new Color(130f, 50f, 0f);
+
+
+
 
 
     [SerializeField] private float projectileSpeed;
@@ -27,11 +33,8 @@ public class GrappleShootScript : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         lineRenderer = GetComponent<LineRenderer>();
 
-        Physics.IgnoreCollision(player.GetComponent<Collider>(), GetComponent<Collider>());
-        //Render line between projectile and player
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.widthMultiplier = 0.2f;
-        lineRenderer.positionCount = 2;
+        lineRenderer.widthMultiplier = 0.1f;
 
         // A simple 2 color gradient with a fixed alpha of 1.0f.
         float alpha = 1.0f;
@@ -42,8 +45,7 @@ public class GrappleShootScript : MonoBehaviour
         );
         lineRenderer.colorGradient = gradient;
 
-        
-
+        Physics.IgnoreCollision(player.GetComponent<Collider>(), GetComponent<Collider>());
         
         //Get mouse position
         Ray mPosRay = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -57,19 +59,34 @@ public class GrappleShootScript : MonoBehaviour
 
     void Update()
     {
-        LineRenderer lineRenderer = GetComponent<LineRenderer>();
-        Vector3[] points = new Vector3[2];
-        points[1] = transform.position;
-        points[2] = player.transform.position;
+        
+        points[0] = transform.position;
+        points[1] = player.transform.position;
 
 
         lineRenderer.SetPositions(points);
+
+        if (timer < 0.5 && collisionHapppened == true)
+        {
+            timer += Time.deltaTime;
+        }
+        else if (collisionHapppened == true)
+        {
+            readyToDestroy = true;
+            timer = 0;
+        }
+
+        if (readyToDestroy == true)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void OnCollisionEnter(Collision collision)
     {
         Debug.Log(transform.position);
         player.GetComponent<PlayerController>().MoveTowardsTarget(transform.position);
-        Destroy(gameObject);
+        rb.linearVelocity = Vector3.zero;
+        collisionHapppened = true;
     }
 }
