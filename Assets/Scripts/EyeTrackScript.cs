@@ -14,7 +14,6 @@ public class EyeTrackScript : MonoBehaviour
         Physics.Raycast(mPosRay, out RaycastHit raycastHit, float.MaxValue, rayCastTargetPlane);
 
         //Rotates eye to point at mouse position
-        Vector3 lookTarget = raycastHit.point;
-        transform.LookAt(lookTarget);
+        transform.LookAt(raycastHit.point);
     }
 }
