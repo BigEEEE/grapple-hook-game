@@ -9,9 +9,11 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private LayerMask rayCastTargetPlane;
     [SerializeField] private GameObject grappleProjectile;
     [SerializeField] private Transform grappleGun;
+    [SerializeField] private float grappleGunRotSpeed;
 
-    private bool canShootGrapple = true;
     private GameObject currentGrappleProjectile;
+    private bool canShootGrapple = true;
+    
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -33,8 +35,13 @@ public class WeaponController : MonoBehaviour
         if (canShootGrapple == true)
         {
             Vector3 lookTarget = new Vector3(raycastHit.point.x, raycastHit.point.y, 0);
-            transform.LookAt(lookTarget);
+            Vector3 lookDirection = lookTarget - gameObject.transform.position;
+            lookDirection.Normalize();
+
+            gameObject.transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, Quaternion.LookRotation(lookDirection), grappleGunRotSpeed * Time.deltaTime);
+            
         }
+        //Rotates gun to point at fired projectile.
         else if (currentGrappleProjectile != null)
         {
             transform.LookAt(currentGrappleProjectile.transform.position);
@@ -53,10 +60,10 @@ public class WeaponController : MonoBehaviour
         {
             canShootGrapple = true;
         }
-
+        
     }
 
-
+    
     
 
 }
