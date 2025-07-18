@@ -1081,6 +1081,7 @@ MonoBehaviour:
   groundCheckMask:
     serializedVersion: 2
     m_Bits: 55
+  groundCheckRadius: 0.23
   jumpHeight: 5
   moveSpeed: 5
   grappleMidAirWait: 5
@@ -1659,7 +1660,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   grappleProjectile: {fileID: 2288857870427546968, guid: cb7db76716529364fb902155415dd2e2, type: 3}
-  grappleGun: {fileID: 1086425672}
+  grappleGun: {fileID: 1826502925}
 --- !u!1 &1660691314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1879,7 +1880,7 @@ GameObject:
   - component: {fileID: 1826502925}
   m_Layer: 0
   m_Name: ProjectileSpawnLocation
-  m_TagString: Untagged
+  m_TagString: ProjectileOrigin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

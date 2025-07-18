@@ -1,3 +1,5 @@
+using Unity.VisualScripting;
+
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -7,9 +9,11 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private LayerMask rayCastTargetPlane;
     [SerializeField] private GameObject grappleProjectile;
     [SerializeField] private Transform grappleGun;
+
+    private bool canShootGrapple = true;
+    private GameObject currentGrappleProjectile;
     
 
-    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,24 +23,39 @@ public class WeaponController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        currentGrappleProjectile = GameObject.FindGameObjectWithTag("GrappleProjectile");
+      
         //Get mouse position
         Ray mPosRay = mainCamera.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(mPosRay, out RaycastHit raycastHit, float.MaxValue, rayCastTargetPlane);
 
         //Rotates gun to point at mouse position
-        Vector3 lookTarget = new Vector3(raycastHit.point.x, raycastHit.point.y, 0);
-        transform.LookAt(lookTarget);
+        if (canShootGrapple == true)
+        {
+            Vector3 lookTarget = new Vector3(raycastHit.point.x, raycastHit.point.y, 0);
+            transform.LookAt(lookTarget);
+        }
+        else if (currentGrappleProjectile != null)
+        {
+            transform.LookAt(currentGrappleProjectile.transform.position);
+        }
 
        
 
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) == true)
+        if (Input.GetKeyDown(KeyCode.Mouse1) == true && canShootGrapple == true)
         {
             Debug.Log("Shoot");
             Instantiate(grappleProjectile, grappleGun.position, grappleGun.rotation);
+            canShootGrapple = false;
+        }
+        if (GameObject.FindGameObjectsWithTag("GrappleProjectile").Length == 0)
+        {
+            canShootGrapple = true;
         }
 
     }
+
 
     
 

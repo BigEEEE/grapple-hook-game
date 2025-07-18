@@ -13,6 +13,7 @@ public class GrappleShootScript : MonoBehaviour
     private Vector3 shootDirection;
     private Vector3[] points = new Vector3[2];
     private Camera mainCamera;
+    private GameObject projectileOrigin;
     private GameObject player;
     private LineRenderer lineRenderer;
 
@@ -28,7 +29,9 @@ public class GrappleShootScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        projectileOrigin = GameObject.FindGameObjectWithTag("ProjectileOrigin");
         player = GameObject.FindGameObjectWithTag("Player");
+
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody>();
         lineRenderer = GetComponent<LineRenderer>();
@@ -45,8 +48,6 @@ public class GrappleShootScript : MonoBehaviour
         );
         lineRenderer.colorGradient = gradient;
 
-        Physics.IgnoreCollision(player.GetComponent<Collider>(), GetComponent<Collider>());
-        
         //Get mouse position
         Ray mPosRay = mainCamera.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(mPosRay, out RaycastHit raycastHit, float.MaxValue, rayCastTargetPlane);
@@ -61,7 +62,7 @@ public class GrappleShootScript : MonoBehaviour
     {
         
         points[0] = transform.position;
-        points[1] = player.transform.position;
+        points[1] = projectileOrigin.transform.position;
 
 
         lineRenderer.SetPositions(points);
