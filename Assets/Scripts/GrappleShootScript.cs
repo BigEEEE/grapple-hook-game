@@ -85,6 +85,7 @@ public class GrappleShootScript : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        AudioManager.instance.PlaySFX("ImpactGrapple");
         Debug.Log(transform.position);
         player.GetComponent<PlayerController>().MoveTowardsTarget(transform.position);
         rb.linearVelocity = Vector3.zero;

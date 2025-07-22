@@ -55,6 +55,7 @@ public class WeaponController : MonoBehaviour
             Debug.Log("Shoot");
             Instantiate(grappleProjectile, grappleGun.position, grappleGun.rotation);
             canShootGrapple = false;
+            AudioManager.instance.PlaySFX("ShootGrapple");
         }
         if (GameObject.FindGameObjectsWithTag("GrappleProjectile").Length == 0)
         {

@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded == true)
         {
             jumpKeyWasPressed = true;
+            AudioManager.instance.PlaySFX("Jump");
         }
 
         //Timer for movement delay when grapple is used.
