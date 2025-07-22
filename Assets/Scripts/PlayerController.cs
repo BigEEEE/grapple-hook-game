@@ -1,3 +1,5 @@
+using Unity.VisualScripting;
+
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -5,6 +7,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private LayerMask groundCheckMask;
     [SerializeField] private float groundCheckRadius;
+
+    [SerializeField] private GameObject wallCheckCollider;
 
     [SerializeField] private float jumpHeight;
     [SerializeField] private float moveSpeed;
@@ -25,6 +29,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        
     }
 
     // Update is called once per frame
@@ -80,6 +85,31 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, rb.linearVelocity.z);
         }
 
+
+        //Wall jump.
+        //Moves wall collider to either side.
+        if (horizontalInput < 0)
+        {
+            wallCheckCollider.transform.position = new Vector3(gameObject.transform.position.x - 0.25f, gameObject.transform.position.y, gameObject.transform.position.z);
+        }
+        else if (horizontalInput > 0)
+        {
+            wallCheckCollider.transform.position = new Vector3(gameObject.transform.position.x + 0.25f, gameObject.transform.position.y, gameObject.transform.position.z);
+        }
+        else if (horizontalInput == 0)
+        {
+            wallCheckCollider.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
+        }
+
+        /*if(horizontalInput != 0)
+        {
+            if (jumpKeyWasPressed == true)
+            {
+                rb.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
+                jumpKeyWasPressed = false;
+            }
+        }*/
+
     }
     public void MoveTowardsTarget(Vector3 grappleImpactPosition)
     {
@@ -102,5 +132,10 @@ public class PlayerController : MonoBehaviour
             canMoveMidair = true;
             grappleUsed = false;
         }
+    }
+
+    void OnCollisionStay(Collision collision)
+    {
+        
     }
 }
