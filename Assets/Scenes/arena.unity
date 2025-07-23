@@ -956,7 +956,7 @@ AudioSource:
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
-  Mute: 0
+  Mute: 1
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
@@ -1934,7 +1934,7 @@ GameObject:
   - component: {fileID: 1633934456}
   - component: {fileID: 1633934455}
   - component: {fileID: 1633934454}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WallCheckCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1971,7 +1971,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
