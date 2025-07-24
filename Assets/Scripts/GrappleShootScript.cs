@@ -88,6 +88,7 @@ public class GrappleShootScript : MonoBehaviour
         AudioManager.instance.PlaySFX("ImpactGrapple");
         Debug.Log(transform.position);
         player.GetComponent<PlayerController>().MoveTowardsTarget(transform.position);
+        player.GetComponent<PlayerController>().timer = 0;
         rb.linearVelocity = Vector3.zero;
         collisionHapppened = true;
     }
