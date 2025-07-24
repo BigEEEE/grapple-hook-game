@@ -71,7 +71,15 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (jumpKeyWasPressed == true) 
+
+        Jump();
+
+        WallJump();
+       
+    }
+    private void Jump()
+    {
+        if (jumpKeyWasPressed == true)
         {
             rb.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
             jumpKeyWasPressed = false;
@@ -85,9 +93,10 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, rb.linearVelocity.z);
         }
+    }
 
-
-        //Wall jump.
+    private void WallJump()
+    {
         //Moves wall collider to either side.
         if (horizontalInput < 0)
         {
@@ -101,16 +110,6 @@ public class PlayerController : MonoBehaviour
         {
             wallCheckCollider.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
         }
-
-        /*if(horizontalInput != 0)
-        {
-            if (jumpKeyWasPressed == true)
-            {
-                rb.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
-                jumpKeyWasPressed = false;
-            }
-        }*/
-
     }
     public void MoveTowardsTarget(Vector3 grappleImpactPosition)
     {

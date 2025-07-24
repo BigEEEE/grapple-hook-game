@@ -38,7 +38,7 @@ public class WeaponController : MonoBehaviour
             Vector3 lookDirection = lookTarget - gameObject.transform.position;
             lookDirection.Normalize();
 
-            gameObject.transform.rotation = Quaternion.Slerp(gameObject.transform.rotation, Quaternion.LookRotation(lookDirection), grappleGunRotSpeed * Time.deltaTime);
+            gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.LookRotation(lookDirection), grappleGunRotSpeed * Time.deltaTime);
             
         }
         //Rotates gun to point at fired projectile.
@@ -53,7 +53,7 @@ public class WeaponController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse1) == true && canShootGrapple == true)
         {
             Debug.Log("Shoot");
-            Instantiate(grappleProjectile, grappleGun.position, grappleGun.rotation);
+            Instantiate(grappleProjectile, new Vector3 (grappleGun.position.x, grappleGun.position.y, 0f), grappleGun.rotation);
             canShootGrapple = false;
             AudioManager.instance.PlaySFX("ShootGrapple");
         }
