@@ -125,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c1: {r: 0.5377358, g: 0.2059094, b: 0, a: 1}
   c2: {r: 1, g: 0, b: 0, a: 1}
+  grappleLength: 8
   projectileSpeed: 15
   rayCastTargetPlane:
     serializedVersion: 2

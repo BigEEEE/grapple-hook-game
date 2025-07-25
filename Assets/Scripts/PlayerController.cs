@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private GameObject menuController;
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private Transform wallCheckTransform;
     [SerializeField] private LayerMask groundCheckMask;
@@ -43,7 +44,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(timer);
+       
         horizontalInput = Input.GetAxisRaw("Horizontal") * moveSpeed;
 
         if ((ObjectProximityCheck(groundCheckTransform.transform.position,groundCheckSize,groundCheckTransform.transform.rotation,groundCheckMask)))
@@ -129,13 +130,13 @@ public class PlayerController : MonoBehaviour
         if (horizontalInput < 0)
         {
             wallCheckTransform.transform.position = new Vector3(gameObject.transform.position.x - 0.25f, gameObject.transform.position.y, gameObject.transform.position.z);
-            wallJumpDirection = new Vector3(Input.GetAxisRaw("Horizontal") * -1, 2, 0);
+            wallJumpDirection = new Vector3(Input.GetAxisRaw("Horizontal") / 2 * -1, 1.5f, 0);
            
         }
         else if (horizontalInput > 0)
         {
             wallCheckTransform.transform.position = new Vector3(gameObject.transform.position.x + 0.25f, gameObject.transform.position.y, gameObject.transform.position.z);
-            wallJumpDirection = new Vector3(Input.GetAxisRaw("Horizontal") * -1, 2, 0);
+            wallJumpDirection = new Vector3(Input.GetAxisRaw("Horizontal") / 2 * -1, 1.5f, 0);
         }
         else if (horizontalInput == 0)
         {
@@ -174,6 +175,22 @@ public class PlayerController : MonoBehaviour
         {
             canMoveMidair = true;
             grappleUsed = false;
+        }
+       
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        Item item = other.GetComponent<Item>();
+        if (item != null)
+        {
+            item.Collect();
+        }
+
+        if (other.CompareTag("Hazard"))
+        {
+            menuController.GetComponent<MenuController>().gameOverScreen.SetActive(true);
+            Time.timeScale = 0f;
         }
     }
 

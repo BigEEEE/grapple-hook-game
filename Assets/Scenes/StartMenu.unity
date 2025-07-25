@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 715294608}
   - component: {fileID: 715294607}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: MenuController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -402,6 +402,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a055a5ffaa127446b3e6e7473d24d56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseMenu: {fileID: 0}
+  winScreen: {fileID: 0}
+  gameOverScreen: {fileID: 0}
 --- !u!114 &715294608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -922,8 +925,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 715294607}
-        m_TargetAssemblyTypeName: StartMenuController, Assembly-CSharp
-        m_MethodName: OnStartClick
+        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+        m_MethodName: MainMenuOnStartClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

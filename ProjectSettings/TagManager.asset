@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GrappleProjectile
   - ProjectileOrigin
+  - Hazard
   layers:
   - Default
   - TransparentFX

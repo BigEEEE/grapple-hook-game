@@ -1,4 +1,4 @@
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class GrappleShootScript : MonoBehaviour
 {
+
     private float timer;
     private bool readyToDestroy = false;
     private bool collisionHapppened = false;
@@ -20,10 +21,7 @@ public class GrappleShootScript : MonoBehaviour
     public Color c1 = new Color(130f, 50f,0f);
     public Color c2 = new Color(130f, 50f, 0f);
 
-
-
-
-
+    [SerializeField] private float grappleLength;
     [SerializeField] private float projectileSpeed;
     [SerializeField] private LayerMask rayCastTargetPlane;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -67,6 +65,10 @@ public class GrappleShootScript : MonoBehaviour
 
         lineRenderer.SetPositions(points);
 
+        Vector3 distance = player.transform.position - transform.position;
+
+        Debug.Log(distance.magnitude);
+
         if (timer < 0.5 && collisionHapppened == true)
         {
             timer += Time.deltaTime;
@@ -77,7 +79,7 @@ public class GrappleShootScript : MonoBehaviour
             timer = 0;
         }
 
-        if (readyToDestroy == true)
+        if (readyToDestroy == true || distance.magnitude > grappleLength)
         {
             Destroy(gameObject);
         }
@@ -85,6 +87,7 @@ public class GrappleShootScript : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Impact");
         AudioManager.instance.PlaySFX("ImpactGrapple");
         Debug.Log(transform.position);
         player.GetComponent<PlayerController>().MoveTowardsTarget(transform.position);
